@@ -6,17 +6,28 @@ struct Averages {
     mode: i32,
 }
 
+impl Averages {
+    fn calculate(numbers: &Vec<i32>) -> Averages {
+        Averages {
+            mean: mean(&numbers),     // 4.8
+            median: median(&numbers), // 4
+            mode: mode(&numbers),     // 4
+        }
+    }
+
+    fn print(&self) {
+        println!(
+            "mean={:.2}, median={}, mode = {}",
+            self.mean, self.median, self.mode
+        );
+    }
+}
+
 fn main() {
     let numbers = vec![3, 7, 5, 7, 4, 1, 7, 9, 7, 3, 4, 1, 1, 1, 1];
-    let averages = Averages {
-        mean: mean(&numbers),     // 4.8
-        median: median(&numbers), // 4
-        mode: mode(&numbers),     // 4
-    };
-    println!("\n -- Averages from {:?} --\n", numbers);
-    println!("mean = {:.2}", averages.mean);
-    println!("median = {}", averages.median);
-    println!("mode = {}", averages.mode);
+    let averages = Averages::calculate(&numbers);
+    println!("Averages of {:?}: ", numbers);
+    averages.print();
 }
 
 fn mean(numbers: &Vec<i32>) -> f32 {
