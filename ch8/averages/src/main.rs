@@ -31,10 +31,7 @@ fn main() {
 }
 
 fn mean(numbers: &Vec<i32>) -> f32 {
-    let mut total = 0;
-    for n in numbers.iter() {
-        total += n;
-    }
+    let total: i32 = numbers.iter().sum();
     total as f32 / numbers.len() as f32
 }
 
@@ -45,16 +42,20 @@ fn median(numbers: &Vec<i32>) -> i32 {
 }
 
 fn mode(numbers: &Vec<i32>) -> i32 {
-    let mut counts = HashMap::new();
-    for n in numbers.iter() {
-        let c = counts.entry(n).or_insert(0);
-        *c += 1;
-    }
-    let mut result: (i32, i32) = (0, 0);
-    for (&n, &c) in &counts {
-        if &c > &result.1 {
-            result = (*n, c);
+    let (mut max, mut result) = (0, 0);
+    for (num, count) in count_occurrences(&numbers) {
+        if count > max {
+            max = count;
+            result = num;
         }
     }
-    result.0
+    result
+}
+
+fn count_occurrences(numbers: &Vec<i32>) -> HashMap<i32, i32> {
+    let mut counts = HashMap::new();
+    for &n in numbers.iter() {
+        *counts.entry(n).or_insert(0) += 1;
+    }
+    counts
 }
