@@ -34,7 +34,7 @@ impl Company {
 
     fn add_str(&mut self, txt: &str) {
         let v: Vec<&str> = txt.split(' ').collect();
-        let (emp, dept) = (v[1].to_string(), v[3].to_string());
+        let (emp, dept) = (String::from(v[1]), String::from(v[3]));
         let employees = self.payroll.entry(dept).or_insert(vec![]);
         employees.push(emp);
         employees.sort();
@@ -47,7 +47,7 @@ impl Company {
                     .payroll
                     .values()
                     .flatten()
-                    .map(|s| s.to_string())
+                    .map(|s| String::from(s))
                     .collect();
                 result.sort();
                 result.join(", ")
