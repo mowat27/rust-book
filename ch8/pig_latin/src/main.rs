@@ -31,39 +31,25 @@ fn first_char(word: &str) -> CharType {
     }
 }
 
-fn pigvowel(word: &str) -> String {
-    let mut result = String::from(word);
-    result.push_str("-hay");
-    result
-}
-
 fn pigconsonant(word: &str) -> String {
     let mut chars = word.chars();
     match chars.next() {
         Option::None => String::new(),
-        Option::Some(first) => {
-            let mut result = String::from_iter(chars);
-            result.push_str(&String::from_iter(vec!['-', first, 'a', 'y'].iter()));
-            result
-        }
+        Option::Some(first) => format!("{}-{}{}", String::from_iter(chars), first, "ay"),
     }
 }
 
 fn pigword(word: &str) -> String {
     match first_char(word) {
         CharType::Consonant(_) => pigconsonant(word),
-        CharType::Vowel(_) => pigvowel(word),
+        CharType::Vowel(_) => format!("{}-hay", word),
         CharType::Blank => String::new(),
     }
 }
 
 fn piglatin(sentence: &str) -> String {
-    let mut result = String::new();
-    for word in sentence.split(" ") {
-        result.push_str(&pigword(word));
-        result.push_str(" ");
-    }
-    String::from(result.trim_end_matches(' '))
+    let pigwords: Vec<String> = sentence.split(' ').map(|word| pigword(word)).collect();
+    pigwords.join(" ")
 }
 
 #[cfg(test)]
@@ -88,5 +74,10 @@ mod tests {
     #[test]
     fn sentence() {
         assert_eq!("ust-ray is-hay ard-hay", piglatin("rust is hard"));
+    }
+    #[test]
+    #[ignore]
+    fn punctuation() {
+        assert_eq!("ust-ray, is-hay ard-hay!", piglatin("rust, is hard!"));
     }
 }
