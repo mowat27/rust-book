@@ -43,10 +43,12 @@ impl Company {
     fn report(&self, q: Query) -> String {
         match q {
             Query::All => {
-                let mut result: Vec<String> = vec![];
-                self.payroll
+                let mut result: Vec<String> = self
+                    .payroll
                     .values()
-                    .for_each(|employees| result.append(&mut employees.to_vec()));
+                    .flatten()
+                    .map(|s| s.to_string())
+                    .collect();
                 result.sort();
                 result.join(", ")
             }
