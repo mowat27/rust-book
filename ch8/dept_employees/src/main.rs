@@ -44,11 +44,9 @@ impl Company {
         match q {
             Query::All => {
                 let mut result: Vec<String> = vec![];
-                for employees in self.payroll.values() {
-                    employees
-                        .iter()
-                        .for_each(|emp| result.push(emp.to_string()));
-                }
+                self.payroll
+                    .values()
+                    .for_each(|employees| result.append(&mut employees.to_vec()));
                 result.sort();
                 result.join(", ")
             }
