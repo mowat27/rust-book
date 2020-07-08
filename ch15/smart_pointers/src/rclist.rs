@@ -30,7 +30,9 @@ where
     loop {
       match item {
         Cons(val, next) => {
-          // val is a <&T> not a <T>
+          // val is a <&T> not a <T> because we are borrowing
+          // from self (and you can't own or mutate the contents
+          // of an Rc anyway)
           result.push(*val);
           item = next;
         }
