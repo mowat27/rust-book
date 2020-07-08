@@ -8,3 +8,6 @@ edition = "2018"
 
 [dependencies]
 terminal_size = "*"
+
+[profile.release]
+opt-level = 3
